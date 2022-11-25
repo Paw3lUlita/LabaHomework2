@@ -6,14 +6,18 @@ public class Payment {
 
     private LocalDateTime dateOfPayment;
 
-    private String accountFrom;
+    private Tenant sender;
 
-    private String accountTo;
+    private HouseOwner receiver;
 
-    public Payment(LocalDateTime dateOfPayment, String accountFrom, String accountTo) {
+    private double amount;
+
+
+    public Payment(LocalDateTime dateOfPayment, Tenant sender, HouseOwner receiver, double amount) {
         this.dateOfPayment = dateOfPayment;
-        this.accountFrom = accountFrom;
-        this.accountTo = accountTo;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.amount = amount;
     }
 
     public LocalDateTime getDateOfPayment() {
@@ -24,19 +28,27 @@ public class Payment {
         this.dateOfPayment = dateOfPayment;
     }
 
-    public String getAccountFrom() {
-        return accountFrom;
+    public Tenant getSender() {
+        return sender;
     }
 
-    public void setAccountFrom(String accountFrom) {
-        this.accountFrom = accountFrom;
+    public void setSender(Tenant sender) {
+        this.sender = sender;
     }
 
-    public String getAccountTo() {
-        return accountTo;
+    public HouseOwner getReceiver() {
+        return receiver;
     }
 
-    public void setAccountTo(String accountTo) {
-        this.accountTo = accountTo;
+    public void setReceiver(HouseOwner receiver) {
+        this.receiver = receiver;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 }
