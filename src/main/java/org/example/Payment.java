@@ -1,19 +1,24 @@
 package org.example;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Payment {
 
     private LocalDateTime dateOfPayment;
 
-    private String accountFrom;
+    private Tenant sender;
 
-    private String accountTo;
+    private HouseOwner receiver;
 
-    public Payment(LocalDateTime dateOfPayment, String accountFrom, String accountTo) {
+    private double amount;
+
+
+    public Payment(LocalDateTime dateOfPayment, Tenant sender, HouseOwner receiver, double amount) {
         this.dateOfPayment = dateOfPayment;
-        this.accountFrom = accountFrom;
-        this.accountTo = accountTo;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.amount = amount;
     }
 
     public LocalDateTime getDateOfPayment() {
@@ -24,19 +29,45 @@ public class Payment {
         this.dateOfPayment = dateOfPayment;
     }
 
-    public String getAccountFrom() {
-        return accountFrom;
+    public Tenant getSender() {
+        return sender;
     }
 
-    public void setAccountFrom(String accountFrom) {
-        this.accountFrom = accountFrom;
+    public void setSender(Tenant sender) {
+        this.sender = sender;
     }
 
-    public String getAccountTo() {
-        return accountTo;
+    public HouseOwner getReceiver() {
+        return receiver;
     }
 
-    public void setAccountTo(String accountTo) {
-        this.accountTo = accountTo;
+    public void setReceiver(HouseOwner receiver) {
+        this.receiver = receiver;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Payment from %s to %s \n amount: %s \n date: %s",
+                sender.getName(), receiver.getName(), amount, dateOfPayment);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Payment payment)) return false;
+        return Double.compare(payment.getAmount(), getAmount()) == 0 && Objects.equals(getDateOfPayment(), payment.getDateOfPayment()) && Objects.equals(getSender(), payment.getSender()) && Objects.equals(getReceiver(), payment.getReceiver());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getDateOfPayment(), getSender(), getReceiver(), getAmount());
     }
 }
