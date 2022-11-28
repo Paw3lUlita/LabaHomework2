@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Objects;
+
 public class House {
 
     private String address;
@@ -13,6 +15,8 @@ public class House {
     private Tenant tenant;
 
     private double rentPrice;
+
+    public House() {}
 
     public House(String address, HouseOwner owner, double price, boolean status, Tenant tenant, double rentPrice) {
         this.address = address;
@@ -69,5 +73,29 @@ public class House {
 
     public void setRentPrice(double rentPrice) {
         this.rentPrice = rentPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "House{" +
+                "address='" + address + '\'' +
+                ", owner=" + owner +
+                ", price=" + price +
+                ", status=" + status +
+                ", tenant=" + tenant +
+                ", rentPrice=" + rentPrice +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof House house)) return false;
+        return Double.compare(house.getPrice(), getPrice()) == 0 && isStatus() == house.isStatus() && Double.compare(house.getRentPrice(), getRentPrice()) == 0 && Objects.equals(getAddress(), house.getAddress()) && Objects.equals(getOwner(), house.getOwner()) && Objects.equals(getTenant(), house.getTenant());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getAddress(), getOwner(), getPrice(), isStatus(), getTenant(), getRentPrice());
     }
 }

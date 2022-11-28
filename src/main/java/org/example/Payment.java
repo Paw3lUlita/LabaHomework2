@@ -1,6 +1,7 @@
 package org.example;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Payment {
 
@@ -50,5 +51,23 @@ public class Payment {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Payment from %s to %s \n amount: %s \n date: %s",
+                sender.getName(), receiver.getName(), amount, dateOfPayment);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Payment payment)) return false;
+        return Double.compare(payment.getAmount(), getAmount()) == 0 && Objects.equals(getDateOfPayment(), payment.getDateOfPayment()) && Objects.equals(getSender(), payment.getSender()) && Objects.equals(getReceiver(), payment.getReceiver());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getDateOfPayment(), getSender(), getReceiver(), getAmount());
     }
 }

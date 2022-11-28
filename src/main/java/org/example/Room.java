@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Objects;
+
 public class Room {
 
     private House house;
@@ -58,5 +60,28 @@ public class Room {
 
     public void setRentPrice(double rentPrice) {
         this.rentPrice = rentPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "house=" + house +
+                ", price=" + price +
+                ", status=" + status +
+                ", tenant=" + tenant +
+                ", rentPrice=" + rentPrice +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Room room)) return false;
+        return Double.compare(room.getPrice(), getPrice()) == 0 && isStatus() == room.isStatus() && Double.compare(room.getRentPrice(), getRentPrice()) == 0 && Objects.equals(getHouse(), room.getHouse()) && Objects.equals(getTenant(), room.getTenant());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getHouse(), getPrice(), isStatus(), getTenant(), getRentPrice());
     }
 }
