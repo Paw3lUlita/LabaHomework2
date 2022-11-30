@@ -1,4 +1,4 @@
-package org.example;
+package org.example.entity;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -9,12 +9,12 @@ public class Payment {
 
     private Tenant sender;
 
-    private HouseOwner receiver;
+    private PropertyOwner receiver;
 
     private double amount;
 
 
-    public Payment(LocalDateTime dateOfPayment, Tenant sender, HouseOwner receiver, double amount) {
+    public Payment(LocalDateTime dateOfPayment, Tenant sender, PropertyOwner receiver, double amount) {
         this.dateOfPayment = dateOfPayment;
         this.sender = sender;
         this.receiver = receiver;
@@ -37,11 +37,11 @@ public class Payment {
         this.sender = sender;
     }
 
-    public HouseOwner getReceiver() {
+    public PropertyOwner getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(HouseOwner receiver) {
+    public void setReceiver(PropertyOwner receiver) {
         this.receiver = receiver;
     }
 

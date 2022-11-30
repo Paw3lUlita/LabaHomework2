@@ -1,15 +1,14 @@
-package org.example;
+package org.example.entity;
 
-public class HouseOwner extends Person{
-
+public class Tenant extends Person{
 
 
     private House house;
 
     private String accountNumber;
 
-
-    public HouseOwner(String name, String surname, String phoneNumber, String email, House house, String accountNumber) {
+    public Tenant(String name, String surname, String phoneNumber,
+                  String email, House house, String accountNumber) {
         super(name, surname, phoneNumber, email);
         this.house = house;
         this.accountNumber = accountNumber;

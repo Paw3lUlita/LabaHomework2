@@ -1,4 +1,4 @@
-package org.example;
+package org.example.entity;
 
 import java.util.Objects;
 
@@ -6,15 +6,15 @@ public class Offer {
 
     private String name;
 
-    private House house;
+    private Property property;
 
     private Agent agent;
 
     private double rentPrice;
 
-    public Offer(String name, House house, Agent agent, double rentPrice) {
+    public Offer(String name, Property house, Agent agent, double rentPrice) {
         this.name = name;
-        this.house = house;
+        this.property = house;
         this.agent = agent;
         this.rentPrice = rentPrice;
     }
@@ -27,12 +27,12 @@ public class Offer {
         this.name = name;
     }
 
-    public House getHouse() {
-        return house;
+    public Property getProperty() {
+        return property;
     }
 
-    public void setHouse(House house) {
-        this.house = house;
+    public void setProperty(House property) {
+        this.property = property;
     }
 
     public Agent getAgent() {
@@ -53,19 +53,19 @@ public class Offer {
 
     @Override
     public String toString() {
-        return String.format("Offer %s made by: %s \n House to rent: %s \n Rent price: %s ",
-                name, agent.getName(), house.getAddress(), rentPrice);
+        return String.format("Offer %s made by: %s \n Property to rent: %s \n Rent price: %s ",
+                name, agent.getName(), property.getAddress(), rentPrice);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Offer offer)) return false;
-        return Double.compare(offer.getRentPrice(), getRentPrice()) == 0 && getName().equals(offer.getName()) && getHouse().equals(offer.getHouse()) && getAgent().equals(offer.getAgent());
+        return Double.compare(offer.getRentPrice(), getRentPrice()) == 0 && getName().equals(offer.getName()) && getProperty().equals(offer.getProperty()) && getAgent().equals(offer.getAgent());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getHouse(), getAgent(), getRentPrice());
+        return Objects.hash(getName(), getProperty(), getAgent(), getRentPrice());
     }
 }
