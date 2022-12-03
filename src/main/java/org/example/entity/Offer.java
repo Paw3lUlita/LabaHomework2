@@ -12,12 +12,14 @@ public class Offer {
 
     private double rentPrice;
 
-    public Offer(String name, Property house, Agent agent, double rentPrice) {
+    public Offer(String name, Property house, Agent agent) {
         this.name = name;
         this.property = house;
         this.agent = agent;
-        this.rentPrice = rentPrice;
+        this.rentPrice = house.getRentPrice();
     }
+
+    public Offer() {}
 
     public String getName() {
         return name;

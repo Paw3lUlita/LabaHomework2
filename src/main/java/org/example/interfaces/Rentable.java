@@ -9,4 +9,5 @@ public interface Rentable {
 
     void unrentProperty(Property property, Tenant tenant);
 
+
 }

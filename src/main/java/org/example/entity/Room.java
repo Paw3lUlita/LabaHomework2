@@ -6,8 +6,8 @@ public class Room extends Property{
 
     private final House house;
 
-    public Room(String address, PropertyOwner owner, boolean status, double rentPrice, House house) {
-        super(address, owner, status, rentPrice);
+    public Room(String address, boolean status, double rentPrice, House house) {
+        super(address, house.getOwner(), status, rentPrice);
         this.house = house;
     }
 

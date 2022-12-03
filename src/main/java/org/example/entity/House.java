@@ -1,13 +1,13 @@
 package org.example.entity;
 
-import java.util.Objects;
-
 public class House extends Property {
 
 
     public House(String address, PropertyOwner owner, boolean status, double rentPrice) {
         super(address, owner, status, rentPrice);
     }
+
+    public House() {}
 
     @Override
     void changeStatus() {

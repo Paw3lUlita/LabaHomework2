@@ -23,6 +23,8 @@ public abstract class Property {
         this.rentPrice = rentPrice;
     }
 
+    public Property() {}
+
     public String getAddress() {
         return address;
     }

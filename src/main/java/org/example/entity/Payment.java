@@ -21,6 +21,8 @@ public class Payment {
         this.amount = amount;
     }
 
+    public Payment() {}
+
     public LocalDateTime getDateOfPayment() {
         return dateOfPayment;
     }

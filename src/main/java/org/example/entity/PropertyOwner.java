@@ -4,25 +4,25 @@ public class PropertyOwner extends Person{
 
 
 
-    private House house;
+    private Property property;
 
     private String accountNumber;
 
 
-    public PropertyOwner(String name, String surname, String phoneNumber, String email, House house, String accountNumber) {
+    public PropertyOwner(String name, String surname, String phoneNumber, String email, Property property, String accountNumber) {
         super(name, surname, phoneNumber, email);
-        this.house = house;
+        this.property = property;
         this.accountNumber = accountNumber;
     }
 
+    public PropertyOwner() {}
 
-
-    public House getHouse() {
-        return house;
+    public Property getProperty() {
+        return property;
     }
 
-    public void setHouse(House house) {
-        this.house = house;
+    public void setProperty(Property property) {
+        this.property = property;
     }
 
     public String getAccountNumber() {
