@@ -1,6 +1,10 @@
 package org.example.repository;
 
 import org.example.entity.*;
+import org.example.exception.NoTenantException;
+import org.example.exception.OwnerHasNoPropertyException;
+import org.example.exception.RentingPropertyWithoutOwnerException;
+import org.example.exception.TenantIsAlreadySetInOtherPropertyException;
 import org.example.interfaces.IRepo;
 
 import java.util.ArrayList;
@@ -60,8 +64,16 @@ public class CentralRepository implements IRepo<RentData> {
         Tenant tenant1 = new Tenant("Donald", "Trump", "4567777", "ert@dot.com", "95959595959595959");
         Tenant tenant2 = new Tenant("Mariah", "Carey", "45000007", "emailt@dot.com", "92222223333359");
 
-        agent1.rentProperty(house1, tenant1);
-        agent1.rentProperty(house2, tenant2);
+        try {
+            agent1.rentProperty(house1, tenant1);
+            agent1.rentProperty(house2, tenant2);
+        } catch (TenantIsAlreadySetInOtherPropertyException | RentingPropertyWithoutOwnerException |
+                 OwnerHasNoPropertyException | NoTenantException e){
+            e.printStackTrace();
+        } finally {
+            System.out.println("This is just finally block test");
+        }
+
 
     }
 }

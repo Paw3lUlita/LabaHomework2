@@ -13,6 +13,8 @@ public class House extends Property {
     void changeStatus() {
         if(getTenant() != null){
             setStatus(true);
+        }else {
+            setStatus(false);
         }
     }
 

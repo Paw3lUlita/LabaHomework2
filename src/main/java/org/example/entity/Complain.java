@@ -6,11 +6,17 @@ public class Complain {
 
     private String message;
 
-    private Tenant tenant;
+    private Person fromWho;
 
-    public Complain(String message, Tenant tenant) {
+    private Person toWho;
+
+    public Complain(String message, Person fromWho, Person toWho) {
         this.message = message;
-        this.tenant = tenant;
+        this.fromWho = fromWho;
+        this.toWho = toWho;
+    }
+
+    public Complain() {
     }
 
     public String getMessage() {
@@ -21,28 +27,26 @@ public class Complain {
         this.message = message;
     }
 
-    public Tenant getTenant() {
-        return tenant;
+    public Person getFromWho() {
+        return fromWho;
     }
 
-    public void setTenant(Tenant tenant) {
-        this.tenant = tenant;
+    public void setFromWho(Person fromWho) {
+        this.fromWho = fromWho;
+    }
+
+    public Person getToWho() {
+        return toWho;
+    }
+
+    public void setToWho(Person toWho) {
+        this.toWho = toWho;
     }
 
     @Override
     public String toString() {
-        return String.format("Complain from: %s \n message: \n %s", tenant.getName(), message);
+        return String.format("Complain from: %s \n to: %s \n message: \n %s", fromWho.getName(), toWho.getName(), message);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Complain complain)) return false;
-        return getMessage().equals(complain.getMessage()) && getTenant().equals(complain.getTenant());
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getMessage(), getTenant());
-    }
 }

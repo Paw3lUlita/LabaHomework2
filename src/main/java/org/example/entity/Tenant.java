@@ -1,6 +1,9 @@
 package org.example.entity;
 
-public class Tenant extends Person{
+import org.example.exception.EmptyMessageComplainException;
+import org.example.interfaces.Icomplain;
+
+public class Tenant extends Person implements Icomplain {
 
 
     private Property property;
@@ -29,5 +32,12 @@ public class Tenant extends Person{
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    @Override
+    public void sendComplain(Complain complain) throws EmptyMessageComplainException {
+        if (complain.getMessage() == null){
+            throw new EmptyMessageComplainException("Message cannot be empty");
+        }
     }
 }

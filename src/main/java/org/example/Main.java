@@ -1,6 +1,9 @@
 package org.example;
 
 
+import org.apache.logging.log4j.*;
+
+
 import org.example.entity.Agent;
 import org.example.entity.Property;
 import org.example.entity.RentData;
@@ -9,19 +12,21 @@ import org.example.repository.CentralRepository;
 
 public class Main {
 
-
+private static final Logger logger = LogManager.getLogger(Main.class);
     public static void main(String[] args) {
+
+
 
         CentralRepository repository = CentralRepository.getINSTANCE();
         repository.generateSomeData();
 
-        System.out.println("Checking all data are saving properly");
-        System.out.println(".....................................");
+
+        logger.info("Checking, that all classes works properly");
         for(RentData data : repository.findAll()){
             System.out.println(data);
             System.out.println(data.getProperty().getTenant());
         }
-
+        logger.info("Check");
         Agent agent = repository.findAll().get(0).getAgent();
         Property property = repository.findAll().get(0).getProperty();
         Tenant tenant = repository.findAll().get(0).getTenant();

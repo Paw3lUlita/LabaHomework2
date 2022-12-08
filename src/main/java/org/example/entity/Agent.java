@@ -1,5 +1,9 @@
 package org.example.entity;
 
+import org.example.exception.NoTenantException;
+import org.example.exception.OwnerHasNoPropertyException;
+import org.example.exception.RentingPropertyWithoutOwnerException;
+import org.example.exception.TenantIsAlreadySetInOtherPropertyException;
 import org.example.interfaces.Rentable;
 import org.example.repository.CentralRepository;
 
@@ -15,7 +19,15 @@ public class Agent extends Person implements Rentable {
 
 
     @Override
-    public void rentProperty(Property property, Tenant tenant) {
+    public void rentProperty(Property property, Tenant tenant)
+            throws TenantIsAlreadySetInOtherPropertyException, RentingPropertyWithoutOwnerException,
+            OwnerHasNoPropertyException, NoTenantException {
+        if(tenant.getProperty() != null) {
+            throw new TenantIsAlreadySetInOtherPropertyException("Tenant is already accommodated in other property");
+        }
+        if(property.getOwner() == null){
+            throw new RentingPropertyWithoutOwnerException("Property has no owner, you can't rent property for sale");
+        }
         property.changeStatus();
         property.setTenant(tenant);
         tenant.setProperty(property);

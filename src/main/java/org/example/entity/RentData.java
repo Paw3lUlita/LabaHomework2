@@ -1,5 +1,9 @@
 package org.example.entity;
 
+import org.example.exception.NoTenantException;
+import org.example.exception.OwnerHasNoPropertyException;
+import org.example.exception.RentingPropertyWithoutOwnerException;
+
 import java.util.Objects;
 
 public class RentData {
@@ -14,7 +18,20 @@ public class RentData {
 
     private double rentPrice;
 
-    public RentData(Agent agent, PropertyOwner owner, Tenant tenant, Property property) {
+    public RentData(Agent agent, PropertyOwner owner, Tenant tenant, Property property) throws OwnerHasNoPropertyException, NoTenantException, RentingPropertyWithoutOwnerException {
+
+        if(owner.getProperty() == null){
+            throw new OwnerHasNoPropertyException("You can't write RentData with owner without property");
+        }
+
+        if(property.getTenant() == null){
+            throw new NoTenantException("You should set tenant to the property");
+        }
+
+        if(property.getOwner() == null){
+            throw new RentingPropertyWithoutOwnerException("Your property doesn't has owner set");
+        }
+
         this.agent = agent;
         this.owner = owner;
         this.tenant = tenant;
