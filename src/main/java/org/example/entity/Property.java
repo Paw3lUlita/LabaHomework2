@@ -14,7 +14,7 @@ public abstract class Property {
 
     private double rentPrice;
 
-    abstract void changeStatus();
+    abstract void updateStatus();
 
     public Property(String address, PropertyOwner owner, boolean status, double rentPrice) {
         this.address = address;

@@ -23,7 +23,10 @@ public abstract class Person {
         this.email = email;
     }
 
-    public Person() {}
+    public Person() {
+        this.name = "John";
+        this.surname = "Smith";
+    }
 
     public void setName(String name) {
         this.name = name;

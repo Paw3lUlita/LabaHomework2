@@ -1,13 +1,15 @@
 package org.example.interfaces;
 
+import org.example.exception.NoSuchRentDataFoundException;
+
 import java.util.List;
 
 public interface IRepo <T>{
 
-    void save(T t);
+    void add(T t);
 
     List<T> findAll();
 
-    void delete(T t);
+    void delete(T t) throws NoSuchRentDataFoundException;
 
 }

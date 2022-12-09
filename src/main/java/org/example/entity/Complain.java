@@ -3,17 +3,16 @@ package org.example.entity;
 import java.util.Objects;
 
 public class Complain {
-
     private String message;
 
-    private Person fromWho;
+    private Person sender;
 
-    private Person toWho;
+    private Person receiver;
 
-    public Complain(String message, Person fromWho, Person toWho) {
+    public Complain(String message, Person sender, Person receiver) {
         this.message = message;
-        this.fromWho = fromWho;
-        this.toWho = toWho;
+        this.sender = sender;
+        this.receiver = receiver;
     }
 
     public Complain() {
@@ -27,26 +26,36 @@ public class Complain {
         this.message = message;
     }
 
-    public Person getFromWho() {
-        return fromWho;
+    public Person getSender() {
+        return sender;
     }
 
-    public void setFromWho(Person fromWho) {
-        this.fromWho = fromWho;
+    public void setSender(Person sender) {
+        this.sender = sender;
     }
 
-    public Person getToWho() {
-        return toWho;
+    public Person getReceiver() {
+        return receiver;
     }
 
-    public void setToWho(Person toWho) {
-        this.toWho = toWho;
+    public void setReceiver(Person receiver) {
+        this.receiver = receiver;
     }
 
     @Override
     public String toString() {
-        return String.format("Complain from: %s \n to: %s \n message: \n %s", fromWho.getName(), toWho.getName(), message);
+        return String.format("Complain from: %s \n to: %s \n message: \n %s", sender.getName(), receiver.getName(), message);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Complain complain)) return false;
+        return Objects.equals(getMessage(), complain.getMessage()) && Objects.equals(sender, complain.sender) && Objects.equals(receiver, complain.receiver);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getMessage(), sender, receiver);
+    }
 }

@@ -11,9 +11,8 @@ public class Room extends Property{
         this.house = house;
     }
 
-
     @Override
-    void changeStatus() {
+    void updateStatus() {
         if(getTenant() != null){
             setStatus(true);
         }

@@ -1,10 +1,7 @@
 package org.example.repository;
 
 import org.example.entity.*;
-import org.example.exception.NoTenantException;
-import org.example.exception.OwnerHasNoPropertyException;
-import org.example.exception.RentingPropertyWithoutOwnerException;
-import org.example.exception.TenantIsAlreadySetInOtherPropertyException;
+import org.example.exception.*;
 import org.example.interfaces.IRepo;
 
 import java.util.ArrayList;
@@ -14,21 +11,21 @@ import java.util.List;
 public class CentralRepository implements IRepo<RentData> {
 
     private final List<RentData> data;
-    private static CentralRepository INSTANCE;
+    private static CentralRepository instance;
 
     public CentralRepository() {
         this.data = new ArrayList<>();
-
     }
 
-    public static CentralRepository getINSTANCE() {
-        if(INSTANCE == null) {
-            INSTANCE = new CentralRepository();
+    public static CentralRepository getInstance() {
+        if(instance == null) {
+            instance = new CentralRepository();
         }
-        return INSTANCE;
+        return instance;
     }
+
     @Override
-    public void save(RentData rentData) {
+    public void add(RentData rentData) {
         data.add(rentData);
     }
 
@@ -44,11 +41,14 @@ public class CentralRepository implements IRepo<RentData> {
     }
 
     @Override
-    public void delete(RentData rentData) {
+    public void delete(RentData rentData) throws NoSuchRentDataFoundException {
+        if(!data.contains(rentData)) {
+            throw new NoSuchRentDataFoundException("You trying delete not saved data");
+        }
         data.remove(rentData);
     }
 
-    public void generateSomeData(){
+    public void generateTestData(){
         Agent agent1 = new Agent("John", "Smith", "345345567", "sdfsd@dot.com");
         Agent agent2 = new Agent("Elizabeth", "Longe", "3908767", "somemail@dot.com");
 
@@ -73,7 +73,5 @@ public class CentralRepository implements IRepo<RentData> {
         } finally {
             System.out.println("This is just finally block test");
         }
-
-
     }
 }

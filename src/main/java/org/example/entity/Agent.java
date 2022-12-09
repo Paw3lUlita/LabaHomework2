@@ -1,16 +1,13 @@
 package org.example.entity;
 
-import org.example.exception.NoTenantException;
-import org.example.exception.OwnerHasNoPropertyException;
-import org.example.exception.RentingPropertyWithoutOwnerException;
-import org.example.exception.TenantIsAlreadySetInOtherPropertyException;
+import org.example.exception.*;
 import org.example.interfaces.Rentable;
 import org.example.repository.CentralRepository;
 
 public class Agent extends Person implements Rentable {
 
 
-    private final CentralRepository repository = CentralRepository.getINSTANCE();
+    private final CentralRepository repository = CentralRepository.getInstance();
     public Agent(String name, String surname, String phoneNumber, String email) {
         super(name, surname, phoneNumber, email);
     }
@@ -28,18 +25,18 @@ public class Agent extends Person implements Rentable {
         if(property.getOwner() == null){
             throw new RentingPropertyWithoutOwnerException("Property has no owner, you can't rent property for sale");
         }
-        property.changeStatus();
+        property.updateStatus();
         property.setTenant(tenant);
         tenant.setProperty(property);
         RentData rentData = new RentData(this, property.getOwner(), tenant, property);
-        repository.save(rentData);
+        repository.add(rentData);
     }
 
     @Override
-    public void unrentProperty(Property property, Tenant tenant) {
+    public void unrentProperty(Property property, Tenant tenant) throws NoSuchRentDataFoundException {
         property.setTenant(null);
         tenant.setProperty(null);
-        property.changeStatus();
+        property.updateStatus();
         RentData rentData = repository.findDataForProperty(property);
         repository.delete(rentData);
     }
