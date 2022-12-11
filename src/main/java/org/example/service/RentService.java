@@ -1,5 +1,7 @@
 package org.example.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.entity.Property;
 import org.example.entity.RentData;
 import org.example.entity.Tenant;
@@ -9,6 +11,7 @@ import org.example.repository.CentralRepository;
 
 public class RentService implements Rentable {
 
+    private static final Logger logger = LogManager.getLogger(RentService.class);
     private final CentralRepository repository = CentralRepository.getInstance();
 
     private static RentService instance;
@@ -27,9 +30,11 @@ public class RentService implements Rentable {
             throws TenantIsAlreadySetInOtherPropertyException, RentingPropertyWithoutOwnerException,
             OwnerHasNoPropertyException, NoTenantException {
         if(tenant.getProperty() != null) {
+            logger.info("Something went wrong while renting property");
             throw new TenantIsAlreadySetInOtherPropertyException("Tenant is already accommodated in other property");
         }
         if(property.getOwner() == null){
+            logger.info("Something went wrong while renting property");
             throw new RentingPropertyWithoutOwnerException("Property has no owner, you can't rent property for sale");
         }
         property.updateStatus();
@@ -37,6 +42,7 @@ public class RentService implements Rentable {
         tenant.setProperty(property);
         RentData rentData = new RentData(property.getOwner(), tenant, property);
         repository.add(rentData);
+        logger.info("Property is rented and successfully added to database");
     }
 
     @Override
@@ -46,6 +52,7 @@ public class RentService implements Rentable {
         property.updateStatus();
         RentData rentData = repository.findDataForProperty(property);
         repository.delete(rentData);
+        logger.info("Property deleted form repository");
     }
 
 }
