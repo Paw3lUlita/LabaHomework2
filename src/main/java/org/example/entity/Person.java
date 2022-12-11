@@ -16,6 +16,18 @@ public abstract class Person {
         return name;
     }
 
+    public Person(String name, String surname, String phoneNumber, String email) {
+        this.name = name;
+        this.surname = surname;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
+    public Person() {
+        this.name = "John";
+        this.surname = "Smith";
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -41,13 +53,6 @@ public abstract class Person {
     }
 
     public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Person(String name, String surname, String phoneNumber, String email) {
-        this.name = name;
-        this.surname = surname;
-        this.phoneNumber = phoneNumber;
         this.email = email;
     }
 

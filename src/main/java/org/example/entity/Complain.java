@@ -3,14 +3,19 @@ package org.example.entity;
 import java.util.Objects;
 
 public class Complain {
-
     private String message;
 
-    private Tenant tenant;
+    private Person sender;
 
-    public Complain(String message, Tenant tenant) {
+    private Person receiver;
+
+    public Complain(String message, Person sender, Person receiver) {
         this.message = message;
-        this.tenant = tenant;
+        this.sender = sender;
+        this.receiver = receiver;
+    }
+
+    public Complain() {
     }
 
     public String getMessage() {
@@ -21,28 +26,36 @@ public class Complain {
         this.message = message;
     }
 
-    public Tenant getTenant() {
-        return tenant;
+    public Person getSender() {
+        return sender;
     }
 
-    public void setTenant(Tenant tenant) {
-        this.tenant = tenant;
+    public void setSender(Person sender) {
+        this.sender = sender;
+    }
+
+    public Person getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(Person receiver) {
+        this.receiver = receiver;
     }
 
     @Override
     public String toString() {
-        return String.format("Complain from: %s \n message: \n %s", tenant.getName(), message);
+        return String.format("Complain from: %s \n to: %s \n message: \n %s", sender.getName(), receiver.getName(), message);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Complain complain)) return false;
-        return getMessage().equals(complain.getMessage()) && getTenant().equals(complain.getTenant());
+        return Objects.equals(getMessage(), complain.getMessage()) && Objects.equals(sender, complain.sender) && Objects.equals(receiver, complain.receiver);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getMessage(), getTenant());
+        return Objects.hash(getMessage(), sender, receiver);
     }
 }

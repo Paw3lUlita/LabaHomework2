@@ -1,25 +1,29 @@
 package org.example.entity;
 
-public class Tenant extends Person{
+import org.example.exception.EmptyMessageComplainException;
+import org.example.interfaces.Icomplain;
+
+public class Tenant extends Person implements Icomplain {
 
 
-    private House house;
+    private Property property;
 
     private String accountNumber;
 
     public Tenant(String name, String surname, String phoneNumber,
-                  String email, House house, String accountNumber) {
+                  String email, String accountNumber) {
         super(name, surname, phoneNumber, email);
-        this.house = house;
         this.accountNumber = accountNumber;
     }
 
-    public House getHouse() {
-        return house;
+    public Tenant() {}
+
+    public Property getProperty() {
+        return property;
     }
 
-    public void setHouse(House house) {
-        this.house = house;
+    public void setProperty(Property property) {
+        this.property = property;
     }
 
     public String getAccountNumber() {
@@ -28,5 +32,12 @@ public class Tenant extends Person{
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    @Override
+    public void sendComplain(Complain complain) throws EmptyMessageComplainException {
+        if (complain.getMessage() == null){
+            throw new EmptyMessageComplainException("Message cannot be empty");
+        }
     }
 }
