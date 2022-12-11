@@ -3,6 +3,7 @@ package org.example.repository;
 import org.example.entity.*;
 import org.example.exception.*;
 import org.example.interfaces.IRepo;
+import org.example.service.RentService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ public class CentralRepository implements IRepo<RentData> {
     private static CentralRepository instance;
 
     public CentralRepository() {
+
         this.data = new ArrayList<>();
     }
 
@@ -48,9 +50,7 @@ public class CentralRepository implements IRepo<RentData> {
         data.remove(rentData);
     }
 
-    public void generateTestData(){
-        Agent agent1 = new Agent("John", "Smith", "345345567", "sdfsd@dot.com");
-        Agent agent2 = new Agent("Elizabeth", "Longe", "3908767", "somemail@dot.com");
+    public void generateTestData() {
 
         Property house1 = new House("Baker Street 21", null, false, 456.34);
         Property house2 = new House("Flower Street 34", null, false, 789.98);
@@ -65,13 +65,20 @@ public class CentralRepository implements IRepo<RentData> {
         Tenant tenant2 = new Tenant("Mariah", "Carey", "45000007", "emailt@dot.com", "92222223333359");
 
         try {
-            agent1.rentProperty(house1, tenant1);
-            agent1.rentProperty(house2, tenant2);
-        } catch (TenantIsAlreadySetInOtherPropertyException | RentingPropertyWithoutOwnerException |
-                 OwnerHasNoPropertyException | NoTenantException e){
+            house1.updateStatus();
+            house1.setTenant(tenant1);
+            tenant1.setProperty(house1);
+            RentData rentData = new RentData(house1.getOwner(), tenant1, house1);
+            data.add(rentData);
+
+            house2.updateStatus();
+            house2.setTenant(tenant2);
+            tenant2.setProperty(house2);
+            RentData rentData2 = new RentData(house2.getOwner(), tenant2, house2);
+            data.add(rentData2);
+        } catch (OwnerHasNoPropertyException | RentingPropertyWithoutOwnerException | NoTenantException e) {
             e.printStackTrace();
-        } finally {
-            System.out.println("This is just finally block test");
         }
+
     }
 }

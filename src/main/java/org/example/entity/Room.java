@@ -12,7 +12,7 @@ public class Room extends Property{
     }
 
     @Override
-    void updateStatus() {
+    public void updateStatus() {
         if(getTenant() != null){
             setStatus(true);
         }

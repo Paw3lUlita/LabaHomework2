@@ -8,8 +8,6 @@ import java.util.Objects;
 
 public class RentData {
 
-    private Agent agent;
-
     private PropertyOwner owner;
 
     private Tenant tenant;
@@ -18,7 +16,7 @@ public class RentData {
 
     private double rentPrice;
 
-    public RentData(Agent agent, PropertyOwner owner, Tenant tenant, Property property) throws OwnerHasNoPropertyException, NoTenantException, RentingPropertyWithoutOwnerException {
+    public RentData(PropertyOwner owner, Tenant tenant, Property property) throws OwnerHasNoPropertyException, NoTenantException, RentingPropertyWithoutOwnerException {
 
         if(owner.getProperty() == null){
             throw new OwnerHasNoPropertyException("You can't write RentData with owner without property");
@@ -32,7 +30,6 @@ public class RentData {
             throw new RentingPropertyWithoutOwnerException("Your property doesn't has owner set");
         }
 
-        this.agent = agent;
         this.owner = owner;
         this.tenant = tenant;
         this.property = property;
@@ -40,14 +37,6 @@ public class RentData {
     }
 
     public RentData() {}
-
-    public Agent getAgent() {
-        return agent;
-    }
-
-    public void setAgent(Agent agent) {
-        this.agent = agent;
-    }
 
     public PropertyOwner getOwner() {
         return owner;
@@ -85,17 +74,17 @@ public class RentData {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof RentData rentData)) return false;
-        return Double.compare(rentData.getRentPrice(), getRentPrice()) == 0 && getAgent().equals(rentData.getAgent()) && getOwner().equals(rentData.getOwner()) && getTenant().equals(rentData.getTenant()) && getProperty().equals(rentData.getProperty());
+        return Double.compare(rentData.getRentPrice(), getRentPrice()) == 0 && getOwner().equals(rentData.getOwner()) && getTenant().equals(rentData.getTenant()) && getProperty().equals(rentData.getProperty());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getAgent(), getOwner(), getTenant(), getProperty(), getRentPrice());
+        return Objects.hash(getOwner(), getTenant(), getProperty(), getRentPrice());
     }
 
     @Override
     public String toString() {
-        return String.format("Rent information: \n Agent: %s \n Owner: %s \n Tenant: %s \n Property: %s ",
-                agent.getSurname(), owner.getSurname(), tenant.getSurname(), property.getAddress());
+        return String.format("Rent information: \n Owner: %s \n Tenant: %s \n Property: %s ",
+                owner.getSurname(), tenant.getSurname(), property.getAddress());
     }
 }

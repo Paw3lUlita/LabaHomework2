@@ -8,7 +8,7 @@ public class House extends Property {
     }
     public House() {}
     @Override
-    void updateStatus() {
+    public void updateStatus() {
         if(getTenant() != null) {
             setStatus(true);
         } else {
