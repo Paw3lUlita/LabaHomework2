@@ -1,5 +1,8 @@
 package org.example.entity;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class Property {
@@ -10,7 +13,7 @@ public abstract class Property {
 
     private boolean status; //true = rented, false= to rent
 
-    private Tenant tenant;
+    private List<Tenant> tenants;
 
     private double rentPrice;
 
@@ -21,9 +24,18 @@ public abstract class Property {
         this.owner = owner;
         this.status = status;
         this.rentPrice = rentPrice;
+        tenants = new ArrayList<>();
     }
 
     public Property() {}
+
+    public void addTenant(Tenant tenant) {
+        tenants.add(tenant);
+    }
+
+    public void removeTenant(Tenant tenant) {
+        tenants.remove(tenant);
+    }
 
     public String getAddress() {
         return address;
@@ -49,12 +61,8 @@ public abstract class Property {
         this.status = status;
     }
 
-    public Tenant getTenant() {
-        return tenant;
-    }
-
-    public void setTenant(Tenant tenant) {
-        this.tenant = tenant;
+    public List<Tenant> getTenants() {
+        return List.copyOf(tenants);
     }
 
     public double getRentPrice() {
@@ -69,11 +77,11 @@ public abstract class Property {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Property property)) return false;
-        return isStatus() == property.isStatus() && Double.compare(property.getRentPrice(), getRentPrice()) == 0 && Objects.equals(getAddress(), property.getAddress()) && Objects.equals(getOwner(), property.getOwner()) && Objects.equals(getTenant(), property.getTenant());
+        return isStatus() == property.isStatus() && Double.compare(property.getRentPrice(), getRentPrice()) == 0 && Objects.equals(getAddress(), property.getAddress()) && Objects.equals(getOwner(), property.getOwner()) && Objects.equals(getTenants(), property.getTenants());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getAddress(), getOwner(), isStatus(), getTenant(), getRentPrice());
+        return Objects.hash(getAddress(), getOwner(), isStatus(), getTenants(), getRentPrice());
     }
 }

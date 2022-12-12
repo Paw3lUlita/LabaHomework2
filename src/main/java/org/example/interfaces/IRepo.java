@@ -10,6 +10,6 @@ public interface IRepo <T>{
 
     List<T> findAll();
 
-    void delete(T t) throws NoSuchRentDataFoundException;
+    void delete(T t) throws Exception;
 
 }
