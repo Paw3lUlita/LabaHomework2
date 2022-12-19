@@ -9,6 +9,8 @@ import org.example.exception.*;
 import org.example.interfaces.Rentable;
 import org.example.repository.CentralRepository;
 
+import java.util.List;
+
 public class RentService implements Rentable {
 
     private static final Logger logger = LogManager.getLogger(RentService.class);
@@ -38,21 +40,23 @@ public class RentService implements Rentable {
             throw new RentingPropertyWithoutOwnerException("Property has no owner, you can't rent property for sale");
         }
         property.updateStatus();
-        property.setTenant(tenant);
+        property.addTenant(tenant);
         tenant.setProperty(property);
-        RentData rentData = new RentData(property.getOwner(), tenant, property);
+        RentData rentData = new RentData(property.getOwner(), List.of(tenant), property);
         repository.add(rentData);
         logger.info("Property is rented and successfully added to database");
     }
 
     @Override
     public void unrentProperty(Property property, Tenant tenant) throws NoSuchRentDataFoundException {
-        property.setTenant(null);
+        property.removeTenant(tenant);
         tenant.setProperty(null);
-        property.updateStatus();
-        RentData rentData = repository.findDataForProperty(property);
-        repository.delete(rentData);
-        logger.info("Property deleted form repository");
+        if (property.getTenants().size() == 0) {
+            property.updateStatus();
+            RentData rentData = repository.findDataForProperty(property);
+            repository.delete(rentData);
+            logger.info("Property deleted form repository");
+        }
     }
 
 }

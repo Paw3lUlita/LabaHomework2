@@ -66,15 +66,15 @@ public class CentralRepository implements IRepo<RentData> {
 
         try {
             house1.updateStatus();
-            house1.setTenant(tenant1);
+            house1.addTenant(tenant1);
             tenant1.setProperty(house1);
-            RentData rentData = new RentData(house1.getOwner(), tenant1, house1);
+            RentData rentData = new RentData(house1.getOwner(), List.of(tenant1), house1);
             data.add(rentData);
 
             house2.updateStatus();
-            house2.setTenant(tenant2);
+            house2.addTenant(tenant2);
             tenant2.setProperty(house2);
-            RentData rentData2 = new RentData(house2.getOwner(), tenant2, house2);
+            RentData rentData2 = new RentData(house2.getOwner(), List.of(tenant2), house2);
             data.add(rentData2);
         } catch (OwnerHasNoPropertyException | RentingPropertyWithoutOwnerException | NoTenantException e) {
             e.printStackTrace();

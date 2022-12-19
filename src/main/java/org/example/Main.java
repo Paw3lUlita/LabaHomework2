@@ -16,11 +16,11 @@ public class Main {
         System.out.println("Checking, that all classes works properly");
         for(RentData data : repository.findAll()){
             System.out.println(data);
-            System.out.println(data.getProperty().getTenant());
+            System.out.println(data.getProperty().getTenants());
         }
 
         Property property = repository.findAll().get(0).getProperty();
-        Tenant tenant = repository.findAll().get(0).getTenant();
+        Tenant tenant = repository.findAll().get(0).getTenants().get(0);
         try {
             rentService.unrentProperty(property, tenant);
         } catch(NoSuchRentDataFoundException e) {
@@ -31,7 +31,7 @@ public class Main {
         System.out.println("......................................................");
         for(RentData data : repository.findAll()){
             System.out.println(data);
-            System.out.println(data.getProperty().getTenant());
+            System.out.println(data.getProperty().getTenants());
         }
     }
 }
