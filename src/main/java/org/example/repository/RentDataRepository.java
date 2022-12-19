@@ -1,27 +1,31 @@
 package org.example.repository;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.example.entity.*;
 import org.example.exception.*;
 import org.example.interfaces.IRepo;
-import org.example.service.RentService;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class CentralRepository implements IRepo<RentData> {
+public class RentDataRepository implements IRepo<RentData> {
 
     private final List<RentData> data;
-    private static CentralRepository instance;
 
-    public CentralRepository() {
+    private static RentDataRepository instance;
 
+
+    public RentDataRepository() {
         this.data = new ArrayList<>();
     }
 
-    public static CentralRepository getInstance() {
+    public static RentDataRepository getInstance() {
         if(instance == null) {
-            instance = new CentralRepository();
+            instance = new RentDataRepository();
         }
         return instance;
     }
@@ -81,4 +85,5 @@ public class CentralRepository implements IRepo<RentData> {
         }
 
     }
+
 }

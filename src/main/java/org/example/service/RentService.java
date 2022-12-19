@@ -7,18 +7,23 @@ import org.example.entity.RentData;
 import org.example.entity.Tenant;
 import org.example.exception.*;
 import org.example.interfaces.Rentable;
-import org.example.repository.CentralRepository;
+import org.example.repository.RentDataRepository;
 
 import java.util.List;
 
 public class RentService implements Rentable {
 
     private static final Logger logger = LogManager.getLogger(RentService.class);
-    private final CentralRepository repository = CentralRepository.getInstance();
+
+    private final RentDataRepository repository;
 
     private static RentService instance;
 
+    private final InfoFileService infoFileService;
+
     public RentService() {
+        this.repository = RentDataRepository.getInstance();
+        infoFileService = new InfoFileService();
     }
 
     public static RentService getInstance() {
@@ -44,6 +49,9 @@ public class RentService implements Rentable {
         tenant.setProperty(property);
         RentData rentData = new RentData(property.getOwner(), List.of(tenant), property);
         repository.add(rentData);
+        String dataToFile = String.format("Property rented: %s \n Owner: %s \n Tenants: %s \n",
+                property.getAddress(), property.getOwner(), property.printTenantsNames() );
+        infoFileService.writeToFile(dataToFile);
         logger.info("Property is rented and successfully added to database");
     }
 
@@ -55,6 +63,8 @@ public class RentService implements Rentable {
             property.updateStatus();
             RentData rentData = repository.findDataForProperty(property);
             repository.delete(rentData);
+            String dataToFile = String.format("Property unrented: %s \n", property.getAddress());
+            infoFileService.writeToFile(dataToFile);
             logger.info("Property deleted form repository");
         }
     }

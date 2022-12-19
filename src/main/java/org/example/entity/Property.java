@@ -37,6 +37,17 @@ public abstract class Property {
         tenants.remove(tenant);
     }
 
+    public String printTenantsNames() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(Tenant t : this.tenants) {
+            stringBuilder.append(t.getName())
+                    .append(" ")
+                    .append(t.getSurname())
+                    .append("; ");
+        }
+        return stringBuilder.toString();
+    }
+
     public String getAddress() {
         return address;
     }
