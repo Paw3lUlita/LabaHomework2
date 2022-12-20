@@ -9,12 +9,13 @@ import org.example.interfaces.IRepo;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
 public class RentDataRepository implements IRepo<RentData> {
 
-    private static final String FILE_PATH = "rentData.csv";
+    private static final String FILE_PATH = "src/main/resources/rentData.csv";
 
     private final File rentDataFile;
 
@@ -24,8 +25,8 @@ public class RentDataRepository implements IRepo<RentData> {
 
 
     public RentDataRepository() {
-        this.data = new ArrayList<>();
         this.rentDataFile = new File(FILE_PATH);
+        this.data = readDataFromFile();
     }
 
     public static RentDataRepository getInstance() {
@@ -60,29 +61,67 @@ public class RentDataRepository implements IRepo<RentData> {
     }
 
     public void writeDataToFile() {
+        //cleaning the file to overwrite new data
+        try {
+            FileUtils.write(rentDataFile, "", "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         data.forEach(rentData -> {
             try {
                 FileUtils.write(rentDataFile, rentData.getOwner().getName()+","+
                                 rentData.getOwner().getSurname()+","+
                                 rentData.getOwner().getPhoneNumber()+","+
                                 rentData.getOwner().getEmail()+","+
-                                rentData.getOwner().getAccountNumber(),
-                                "UTF-8");
+                                rentData.getOwner().getAccountNumber()+"\n",
+                                "UTF-8", true);
 
                 FileUtils.write(rentDataFile, rentData.getTenant().getName()+","+
                                 rentData.getTenant().getSurname()+","+
                                 rentData.getTenant().getPhoneNumber()+","+
                                 rentData.getTenant().getEmail()+","+
-                                rentData.getTenant().getAccountNumber(),
-                        "UTF-8");
+                                rentData.getTenant().getAccountNumber()+"\n",
+                        "UTF-8", true);
 
                 FileUtils.write(rentDataFile, rentData.getProperty().getAddress()+","+
-                                rentData.getProperty().getRentPrice(),
-                        "UTF-8");
+                                rentData.getProperty().getRentPrice()+"\n",
+                        "UTF-8", true);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
+    }
+
+    public List<RentData> readDataFromFile() {
+        List<RentData> dataFromFile = new ArrayList<>();
+        List<String> linesOfFile = new ArrayList<>();
+        try {
+            linesOfFile = FileUtils.readLines(rentDataFile, "UTF-8");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        for(int i = 0 ; i< linesOfFile.size() ; i+=3){
+            String[] ownerFields = linesOfFile.get(i).split(",");
+            PropertyOwner owner = new PropertyOwner(ownerFields[0], ownerFields[1], ownerFields[2],
+                                        ownerFields[3], null, ownerFields[4]);
+
+            String[] tenantFields = linesOfFile.get(i+1).split(",");
+            Tenant tenant = new Tenant(tenantFields[0], tenantFields[1], tenantFields[2],
+                                        tenantFields[3], tenantFields[4] );
+
+            String[] propertyFields = linesOfFile.get(i+2).split(",");
+            Property property = new House(propertyFields[0], owner, true, Double.parseDouble(propertyFields[1]));
+            property.setTenant(tenant);
+            owner.setProperty(property);
+            tenant.setProperty(property);
+            try {
+                RentData rentData = new RentData(owner, tenant, property);
+                dataFromFile.add(rentData);
+            } catch (OwnerHasNoPropertyException | NoTenantException | RentingPropertyWithoutOwnerException e) {
+                e.printStackTrace();
+            }
+        }
+        return dataFromFile;
     }
 
     public void generateTestData() {
@@ -114,7 +153,5 @@ public class RentDataRepository implements IRepo<RentData> {
         } catch (OwnerHasNoPropertyException | RentingPropertyWithoutOwnerException | NoTenantException e) {
             e.printStackTrace();
         }
-
     }
-
 }

@@ -13,7 +13,7 @@ public class Room extends Property{
 
     @Override
     public void updateStatus() {
-        if(getTenants().size() != 0){
+        if(getTenant() != null){
             setStatus(true);
         } else {
             setStatus(false);

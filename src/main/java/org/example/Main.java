@@ -15,7 +15,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args)  {
         RentDataRepository repository = RentDataRepository.getInstance();
-        repository.generateTestData();
+        //repository.generateTestData();
         RentService rentService = RentService.getInstance();
         InfoFileService infoFileService = new InfoFileService();
 
@@ -48,5 +48,6 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        repository.writeDataToFile();
     }
 }
