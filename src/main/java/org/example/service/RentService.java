@@ -19,11 +19,8 @@ public class RentService implements Rentable {
 
     private static RentService instance;
 
-    private final InfoFileService infoFileService;
-
     public RentService() {
         this.repository = RentDataRepository.getInstance();
-        infoFileService = new InfoFileService();
     }
 
     public static RentService getInstance() {
@@ -60,8 +57,6 @@ public class RentService implements Rentable {
             property.updateStatus();
             RentData rentData = repository.findDataForProperty(property);
             repository.delete(rentData);
-            String dataToFile = String.format("Property unrented: %s \n", property.getAddress());
-            infoFileService.writeToFile(dataToFile);
             logger.info("Property deleted form repository");
         }
     }
