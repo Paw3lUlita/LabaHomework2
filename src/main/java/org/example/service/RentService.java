@@ -45,21 +45,18 @@ public class RentService implements Rentable {
             throw new RentingPropertyWithoutOwnerException("Property has no owner, you can't rent property for sale");
         }
         property.updateStatus();
-        property.addTenant(tenant);
+        property.setTenant(tenant);
         tenant.setProperty(property);
-        RentData rentData = new RentData(property.getOwner(), List.of(tenant), property);
+        RentData rentData = new RentData(property.getOwner(), tenant, property);
         repository.add(rentData);
-        String dataToFile = String.format("Property rented: %s \n Owner: %s \n Tenants: %s \n",
-                property.getAddress(), property.getOwner(), property.printTenantsNames() );
-        infoFileService.writeToFile(dataToFile);
         logger.info("Property is rented and successfully added to database");
     }
 
     @Override
     public void unrentProperty(Property property, Tenant tenant) throws NoSuchRentDataFoundException {
-        property.removeTenant(tenant);
+        property.setTenant(null);
         tenant.setProperty(null);
-        if (property.getTenants().size() == 0) {
+        if (property.getTenant() == null) {
             property.updateStatus();
             RentData rentData = repository.findDataForProperty(property);
             repository.delete(rentData);

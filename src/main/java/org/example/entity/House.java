@@ -9,7 +9,7 @@ public class House extends Property {
     public House() {}
     @Override
     public void updateStatus() {
-        if(getTenants().size() != 0) {
+        if(getTenant() != null) {
             setStatus(true);
         } else {
             setStatus(false);
@@ -19,6 +19,6 @@ public class House extends Property {
     @Override
     public String toString() {
         return String.format("House address: %s \n Owner: %s \n Tenant: %s \n Rent price: %s",
-                super.getAddress(), super.getOwner(), super.getTenants(), super.getRentPrice());
+                super.getAddress(), super.getOwner(), super.getTenant(), super.getRentPrice());
     }
 }

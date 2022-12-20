@@ -5,7 +5,6 @@ import org.example.interfaces.Icomplain;
 
 public class Tenant extends Person implements Icomplain {
 
-
     private Property property;
 
     private String accountNumber;

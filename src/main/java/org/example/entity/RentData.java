@@ -11,19 +11,19 @@ public class RentData {
 
     private PropertyOwner owner;
 
-    private List<Tenant> tenants;
+    private Tenant tenant;
 
     private Property property;
 
     private double rentPrice;
 
-    public RentData(PropertyOwner owner, List<Tenant> tenants, Property property) throws OwnerHasNoPropertyException, NoTenantException, RentingPropertyWithoutOwnerException {
+    public RentData(PropertyOwner owner, Tenant tenant, Property property) throws OwnerHasNoPropertyException, NoTenantException, RentingPropertyWithoutOwnerException {
 
         if(owner.getProperty() == null){
             throw new OwnerHasNoPropertyException("You can't write RentData with owner without property");
         }
 
-        if(property.getTenants().size() == 0){
+        if(property.getTenant() == null){
             throw new NoTenantException("You should set tenant to the property");
         }
 
@@ -32,7 +32,7 @@ public class RentData {
         }
 
         this.owner = owner;
-        this.tenants = tenants;
+        this.tenant = tenant;
         this.property = property;
         this.rentPrice = property.getRentPrice();
     }
@@ -47,12 +47,12 @@ public class RentData {
         this.owner = owner;
     }
 
-    public List<Tenant> getTenants() {
-        return List.copyOf(tenants);
+    public Tenant getTenant() {
+        return tenant;
     }
 
-    public void addTenant(Tenant tenant) {
-        tenants.add(tenant);
+    public void setTenant(Tenant tenant) {
+        this.tenant = tenant;
     }
 
     public Property getProperty() {
@@ -71,17 +71,17 @@ public class RentData {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof RentData rentData)) return false;
-        return Double.compare(rentData.getRentPrice(), getRentPrice()) == 0 && getOwner().equals(rentData.getOwner()) && getTenants().equals(rentData.getTenants()) && getProperty().equals(rentData.getProperty());
+        return Double.compare(rentData.getRentPrice(), getRentPrice()) == 0 && getOwner().equals(rentData.getOwner()) && getTenant().equals(rentData.getTenant()) && getProperty().equals(rentData.getProperty());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getOwner(), getTenants(), getProperty(), getRentPrice());
+        return Objects.hash(getOwner(), getTenant(), getProperty(), getRentPrice());
     }
 
     @Override
     public String toString() {
         return String.format("Rent information: \n Owner: %s \n Tenants: %s \n Property: %s ",
-                owner.getSurname(), tenants.toString(), property.getAddress());
+                owner.getSurname(), tenant.toString(), property.getAddress());
     }
 }

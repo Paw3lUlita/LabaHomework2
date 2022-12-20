@@ -10,14 +10,11 @@ import java.util.List;
 
 public class InfoFileService {
 
-    private File lastInfoFile;
+    private static final String FILE_PATH = "infoData.csv";
+    private final File lastInfoFile;
 
     public InfoFileService() {
-        this.lastInfoFile = new File("infoData.csv");
-    }
-
-    public File getLastInfoFile() {
-        return lastInfoFile;
+        this.lastInfoFile = new File(FILE_PATH);
     }
 
     public void writeToFile(String data) {

@@ -13,7 +13,7 @@ public abstract class Property {
 
     private boolean status; //true = rented, false= to rent
 
-    private List<Tenant> tenants;
+    private Tenant tenant;
 
     private double rentPrice;
 
@@ -24,28 +24,16 @@ public abstract class Property {
         this.owner = owner;
         this.status = status;
         this.rentPrice = rentPrice;
-        tenants = new ArrayList<>();
     }
 
     public Property() {}
 
-    public void addTenant(Tenant tenant) {
-        tenants.add(tenant);
+    public Tenant getTenant() {
+        return tenant;
     }
 
-    public void removeTenant(Tenant tenant) {
-        tenants.remove(tenant);
-    }
-
-    public String printTenantsNames() {
-        StringBuilder stringBuilder = new StringBuilder();
-        for(Tenant t : this.tenants) {
-            stringBuilder.append(t.getName())
-                    .append(" ")
-                    .append(t.getSurname())
-                    .append("; ");
-        }
-        return stringBuilder.toString();
+    public void setTenant(Tenant tenant) {
+        this.tenant = tenant;
     }
 
     public String getAddress() {
@@ -72,10 +60,6 @@ public abstract class Property {
         this.status = status;
     }
 
-    public List<Tenant> getTenants() {
-        return List.copyOf(tenants);
-    }
-
     public double getRentPrice() {
         return rentPrice;
     }
@@ -88,11 +72,11 @@ public abstract class Property {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Property property)) return false;
-        return isStatus() == property.isStatus() && Double.compare(property.getRentPrice(), getRentPrice()) == 0 && Objects.equals(getAddress(), property.getAddress()) && Objects.equals(getOwner(), property.getOwner()) && Objects.equals(getTenants(), property.getTenants());
+        return isStatus() == property.isStatus() && Double.compare(property.getRentPrice(), getRentPrice()) == 0 && Objects.equals(getAddress(), property.getAddress()) && Objects.equals(getOwner(), property.getOwner()) && Objects.equals(getTenant(), property.getTenant());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getAddress(), getOwner(), isStatus(), getTenants(), getRentPrice());
+        return Objects.hash(getAddress(), getOwner(), isStatus(), getTenant(), getRentPrice());
     }
 }

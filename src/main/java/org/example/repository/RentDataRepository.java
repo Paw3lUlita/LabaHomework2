@@ -14,6 +14,10 @@ import java.util.List;
 
 public class RentDataRepository implements IRepo<RentData> {
 
+    private static final String FILE_PATH = "rentData.csv";
+
+    private final File rentDataFile;
+
     private final List<RentData> data;
 
     private static RentDataRepository instance;
@@ -21,6 +25,7 @@ public class RentDataRepository implements IRepo<RentData> {
 
     public RentDataRepository() {
         this.data = new ArrayList<>();
+        this.rentDataFile = new File(FILE_PATH);
     }
 
     public static RentDataRepository getInstance() {
@@ -54,6 +59,32 @@ public class RentDataRepository implements IRepo<RentData> {
         data.remove(rentData);
     }
 
+    public void writeDataToFile() {
+        data.forEach(rentData -> {
+            try {
+                FileUtils.write(rentDataFile, rentData.getOwner().getName()+","+
+                                rentData.getOwner().getSurname()+","+
+                                rentData.getOwner().getPhoneNumber()+","+
+                                rentData.getOwner().getEmail()+","+
+                                rentData.getOwner().getAccountNumber(),
+                                "UTF-8");
+
+                FileUtils.write(rentDataFile, rentData.getTenant().getName()+","+
+                                rentData.getTenant().getSurname()+","+
+                                rentData.getTenant().getPhoneNumber()+","+
+                                rentData.getTenant().getEmail()+","+
+                                rentData.getTenant().getAccountNumber(),
+                        "UTF-8");
+
+                FileUtils.write(rentDataFile, rentData.getProperty().getAddress()+","+
+                                rentData.getProperty().getRentPrice(),
+                        "UTF-8");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     public void generateTestData() {
 
         Property house1 = new House("Baker Street 21", null, false, 456.34);
@@ -70,15 +101,15 @@ public class RentDataRepository implements IRepo<RentData> {
 
         try {
             house1.updateStatus();
-            house1.addTenant(tenant1);
+            house1.setTenant(tenant1);
             tenant1.setProperty(house1);
-            RentData rentData = new RentData(house1.getOwner(), List.of(tenant1), house1);
+            RentData rentData = new RentData(house1.getOwner(), tenant1, house1);
             data.add(rentData);
 
             house2.updateStatus();
-            house2.addTenant(tenant2);
+            house2.setTenant(tenant2);
             tenant2.setProperty(house2);
-            RentData rentData2 = new RentData(house2.getOwner(), List.of(tenant2), house2);
+            RentData rentData2 = new RentData(house2.getOwner(), tenant1, house2);
             data.add(rentData2);
         } catch (OwnerHasNoPropertyException | RentingPropertyWithoutOwnerException | NoTenantException e) {
             e.printStackTrace();
