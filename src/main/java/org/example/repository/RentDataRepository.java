@@ -1,19 +1,23 @@
 package org.example.repository;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.abstractClasses.Property;
 import org.example.entity.*;
 import org.example.exception.*;
 import org.example.interfaces.IRepo;
+import org.example.service.RentService;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
 public class RentDataRepository implements IRepo<RentData> {
+
+    private static final Logger logger = LogManager.getLogger(RentDataRepository.class);
 
     private static final String FILE_PATH = "src/main/resources/rentData.csv";
 
@@ -27,6 +31,7 @@ public class RentDataRepository implements IRepo<RentData> {
     public RentDataRepository() {
         this.rentDataFile = new File(FILE_PATH);
         this.data = readDataFromFile();
+        logger.debug("Instance of RentDataRepository class is created");
     }
 
     public static RentDataRepository getInstance() {
@@ -60,8 +65,10 @@ public class RentDataRepository implements IRepo<RentData> {
         data.remove(rentData);
     }
 
+    /**
+     * cleaning the file first, to overwrite new data
+     */
     public void writeDataToFile() {
-        //cleaning the file to overwrite new data
         try {
             FileUtils.write(rentDataFile, "", "UTF-8");
         } catch (IOException e) {
@@ -86,6 +93,7 @@ public class RentDataRepository implements IRepo<RentData> {
                 FileUtils.write(rentDataFile, rentData.getProperty().getAddress()+","+
                                 rentData.getProperty().getRentPrice()+"\n",
                         "UTF-8", true);
+                logger.debug("Data written successfully to the file");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -100,7 +108,7 @@ public class RentDataRepository implements IRepo<RentData> {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        for(int i = 0 ; i< linesOfFile.size() ; i+=3){
+        for(int i = 0; i < linesOfFile.size(); i+=3) {
             String[] ownerFields = linesOfFile.get(i).split(",");
             PropertyOwner owner = new PropertyOwner(ownerFields[0], ownerFields[1], ownerFields[2],
                                         ownerFields[3], null, ownerFields[4]);
@@ -117,6 +125,7 @@ public class RentDataRepository implements IRepo<RentData> {
             try {
                 RentData rentData = new RentData(owner, tenant, property);
                 dataFromFile.add(rentData);
+                logger.debug("RentData read successfully from the file");
             } catch (OwnerHasNoPropertyException | NoTenantException | RentingPropertyWithoutOwnerException e) {
                 e.printStackTrace();
             }

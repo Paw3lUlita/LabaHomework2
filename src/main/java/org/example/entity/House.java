@@ -1,5 +1,7 @@
 package org.example.entity;
 
+import org.example.abstractClasses.Property;
+
 public class House extends Property {
 
 
@@ -10,9 +12,9 @@ public class House extends Property {
     @Override
     public void updateStatus() {
         if(getTenant() != null) {
-            setStatus(true);
+            setRented(true);
         } else {
-            setStatus(false);
+            setRented(false);
         }
     }
 

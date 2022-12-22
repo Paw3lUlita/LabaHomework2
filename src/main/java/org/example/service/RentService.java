@@ -2,14 +2,12 @@ package org.example.service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.entity.Property;
+import org.example.abstractClasses.Property;
 import org.example.entity.RentData;
 import org.example.entity.Tenant;
 import org.example.exception.*;
 import org.example.interfaces.Rentable;
 import org.example.repository.RentDataRepository;
-
-import java.util.List;
 
 public class RentService implements Rentable {
 
@@ -35,11 +33,11 @@ public class RentService implements Rentable {
             OwnerHasNoPropertyException, NoTenantException {
         if(tenant.getProperty() != null) {
             logger.info("Something went wrong while renting property");
-            throw new TenantIsAlreadySetInOtherPropertyException("Tenant is already accommodated in other property");
+            throw new TenantIsAlreadySetInOtherPropertyException(tenant);
         }
         if(property.getOwner() == null){
             logger.info("Something went wrong while renting property");
-            throw new RentingPropertyWithoutOwnerException("Property has no owner, you can't rent property for sale");
+            throw new RentingPropertyWithoutOwnerException(property);
         }
         property.updateStatus();
         property.setTenant(tenant);

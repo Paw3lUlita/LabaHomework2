@@ -1,9 +1,14 @@
-package org.example.entity;
+package org.example.abstractClasses;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.service.RentService;
 
 import java.util.Objects;
 
 public abstract class Person {
 
+    private static final Logger logger = LogManager.getLogger(Person.class);
     private String name;
 
     private String surname;
@@ -21,6 +26,7 @@ public abstract class Person {
         this.surname = surname;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        logger.debug("Instance of Person class is created");
     }
 
     public Person() {
@@ -60,7 +66,11 @@ public abstract class Person {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Person person)) return false;
-        return name.equals(person.name) && surname.equals(person.surname) && phoneNumber.equals(person.phoneNumber) && email.equals(person.email);
+        boolean isNameEqual = name.equals(person.name);
+        boolean isSurnameEqual = surname.equals(person.surname);
+        boolean isPhoneNumberEqual = phoneNumber.equals(person.phoneNumber);
+        boolean isEmailEqual = email.equals(person.email);
+        return isNameEqual && isSurnameEqual && isPhoneNumberEqual && isEmailEqual;
     }
 
     @Override

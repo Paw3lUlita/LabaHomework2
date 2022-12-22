@@ -1,14 +1,18 @@
 package org.example.entity;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.abstractClasses.Property;
 import org.example.exception.NoTenantException;
 import org.example.exception.OwnerHasNoPropertyException;
 import org.example.exception.RentingPropertyWithoutOwnerException;
+import org.example.service.RentService;
 
-import java.util.List;
 import java.util.Objects;
 
 public class RentData {
 
+    private static final Logger logger = LogManager.getLogger(RentData.class);
     private PropertyOwner owner;
 
     private Tenant tenant;
@@ -20,21 +24,22 @@ public class RentData {
     public RentData(PropertyOwner owner, Tenant tenant, Property property) throws OwnerHasNoPropertyException, NoTenantException, RentingPropertyWithoutOwnerException {
 
         if(owner.getProperty() == null){
-            throw new OwnerHasNoPropertyException("You can't write RentData with owner without property");
+            throw new OwnerHasNoPropertyException(owner);
         }
 
         if(property.getTenant() == null){
-            throw new NoTenantException("You should set tenant to the property");
+            throw new NoTenantException(property);
         }
 
         if(property.getOwner() == null){
-            throw new RentingPropertyWithoutOwnerException("Your property doesn't has owner set");
+            throw new RentingPropertyWithoutOwnerException(property);
         }
 
         this.owner = owner;
         this.tenant = tenant;
         this.property = property;
         this.rentPrice = property.getRentPrice();
+        logger.info("Instance of RentData class was created");
     }
 
     public RentData() {}

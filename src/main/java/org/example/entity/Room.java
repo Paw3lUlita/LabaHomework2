@@ -1,8 +1,10 @@
 package org.example.entity;
 
+import org.example.abstractClasses.Property;
+
 import java.util.Objects;
 
-public class Room extends Property{
+public class Room extends Property {
 
     private final House house;
 
@@ -14,9 +16,9 @@ public class Room extends Property{
     @Override
     public void updateStatus() {
         if(getTenant() != null){
-            setStatus(true);
+            setRented(true);
         } else {
-            setStatus(false);
+            setRented(false);
         }
     }
 
