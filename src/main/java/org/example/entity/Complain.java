@@ -1,5 +1,7 @@
 package org.example.entity;
 
+import org.example.abstractClasses.Person;
+
 import java.util.Objects;
 
 public class Complain {

@@ -1,5 +1,7 @@
 package org.example.entity;
 
+import org.example.abstractClasses.Person;
+import org.example.abstractClasses.Property;
 import org.example.exception.EmptyMessageComplainException;
 import org.example.interfaces.Icomplain;
 
