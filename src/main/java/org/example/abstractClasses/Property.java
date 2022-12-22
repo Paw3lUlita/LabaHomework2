@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.entity.PropertyOwner;
 import org.example.entity.Tenant;
+import org.example.enums.RentStatus;
 import org.example.service.RentService;
 
 import java.util.Objects;
@@ -15,10 +16,7 @@ public abstract class Property {
 
     private PropertyOwner owner;
 
-    /**
-     * true = isRented, false= isAvailable
-     */
-    private boolean rented;
+    private RentStatus status = RentStatus.AVAILABLE_TO_RENT;
 
     private Tenant tenant;
 
@@ -29,7 +27,9 @@ public abstract class Property {
     public Property(String address, PropertyOwner owner, boolean rented, double rentPrice) {
         this.address = address;
         this.owner = owner;
-        this.rented = rented;
+        if(rented) {
+            status = RentStatus.RENTED;
+        }
         this.rentPrice = rentPrice;
         logger.debug("Instance of Property class is created");
     }
@@ -60,12 +60,16 @@ public abstract class Property {
         this.owner = owner;
     }
 
-    public boolean isRented() {
-        return rented;
+    public RentStatus getStatus() {
+        return status;
     }
 
-    public void setRented(boolean rented) {
-        this.rented = rented;
+    public void setStatus(RentStatus status) {
+        this.status = status;
+    }
+
+    public boolean isRented() {
+        return status == RentStatus.RENTED;
     }
 
     public double getRentPrice() {

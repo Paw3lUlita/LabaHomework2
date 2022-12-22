@@ -1,6 +1,7 @@
 package org.example.entity;
 
 import org.example.abstractClasses.Property;
+import org.example.enums.RentStatus;
 
 public class House extends Property {
 
@@ -12,9 +13,9 @@ public class House extends Property {
     @Override
     public void updateStatus() {
         if(getTenant() != null) {
-            setRented(true);
+            setStatus(RentStatus.RENTED);
         } else {
-            setRented(false);
+            setStatus(RentStatus.AVAILABLE_TO_RENT);
         }
     }
 
