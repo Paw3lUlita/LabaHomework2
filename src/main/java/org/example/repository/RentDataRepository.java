@@ -18,15 +18,10 @@ import java.util.List;
 public class RentDataRepository implements IRepo<RentData> {
 
     private static final Logger logger = LogManager.getLogger(RentDataRepository.class);
-
     private static final String FILE_PATH = "src/main/resources/rentData.csv";
-
     private final File rentDataFile;
-
     private final List<RentData> data;
-
     private static RentDataRepository instance;
-
 
     public RentDataRepository() {
         this.rentDataFile = new File(FILE_PATH);
@@ -61,7 +56,7 @@ public class RentDataRepository implements IRepo<RentData> {
     @Override
     public void delete(RentData rentData) throws NoSuchRentDataFoundException {
         if(!data.contains(rentData)) {
-            throw new NoSuchRentDataFoundException("You trying delete not saved data");
+            throw new NoSuchRentDataFoundException(rentData);
         }
         data.remove(rentData);
     }
