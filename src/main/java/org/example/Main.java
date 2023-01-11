@@ -31,8 +31,7 @@ public class Main {
                 case 4 -> System.out.println("Your data is saved, switching off the program");
                 default -> System.out.println("Choose correct option!");
             }
-        }
-        while (option != 4);
+        } while (option != 4);
         repository.writeDataToFile();
     }
 

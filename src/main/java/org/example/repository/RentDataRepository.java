@@ -54,7 +54,8 @@ public class RentDataRepository implements IRepo<RentData> {
     public RentData findDataForProperty(Property property){
         return data.stream().
                 filter(d -> d.getProperty().equals(property))
-                .findAny().orElseThrow();
+                .findAny()
+                .orElseThrow();
     }
 
     @Override
