@@ -1,5 +1,6 @@
 package org.example.entity;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.abstractClasses.Property;
@@ -86,7 +87,19 @@ public class RentData {
 
     @Override
     public String toString() {
-        return String.format("Rent information: \n Owner: %s \n Tenants: %s \n Property: %s ",
-                owner.getSurname(), tenant.toString(), property.getAddress());
+        return getOwner().getName()+","+
+                getOwner().getSurname()+","+
+                getOwner().getPhoneNumber()+","+
+                getOwner().getEmail()+","+
+                getOwner().getAccountNumber()+"\n" +
+
+                getTenant().getName()+","+
+                getTenant().getSurname()+","+
+                getTenant().getPhoneNumber()+","+
+                getTenant().getEmail()+","+
+                getTenant().getAccountNumber()+"\n" +
+
+                getProperty().getAddress()+","+
+                getRentPrice()+"\n";
     }
 }

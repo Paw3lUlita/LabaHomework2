@@ -72,23 +72,7 @@ public class RentDataRepository implements IRepo<RentData> {
         }
         data.forEach(rentData -> {
             try {
-                FileUtils.write(rentDataFile, rentData.getOwner().getName()+","+
-                                rentData.getOwner().getSurname()+","+
-                                rentData.getOwner().getPhoneNumber()+","+
-                                rentData.getOwner().getEmail()+","+
-                                rentData.getOwner().getAccountNumber()+"\n",
-                                "UTF-8", true);
-
-                FileUtils.write(rentDataFile, rentData.getTenant().getName()+","+
-                                rentData.getTenant().getSurname()+","+
-                                rentData.getTenant().getPhoneNumber()+","+
-                                rentData.getTenant().getEmail()+","+
-                                rentData.getTenant().getAccountNumber()+"\n",
-                        "UTF-8", true);
-
-                FileUtils.write(rentDataFile, rentData.getProperty().getAddress()+","+
-                                rentData.getProperty().getRentPrice()+"\n",
-                        "UTF-8", true);
+                FileUtils.write(rentDataFile, rentData.toString(), "UTF-8", true);
                 logger.debug("Data written successfully to the file");
             } catch (IOException e) {
                 e.printStackTrace();
@@ -130,7 +114,6 @@ public class RentDataRepository implements IRepo<RentData> {
     }
 
     public void generateTestData() {
-
         Property house1 = new House("Baker Street 21", null, false, 456.34);
         Property house2 = new House("Flower Street 34", null, false, 789.98);
 
