@@ -1,40 +1,46 @@
 package org.example.entity;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.abstractClasses.Property;
 import org.example.exception.NoTenantException;
 import org.example.exception.OwnerHasNoPropertyException;
 import org.example.exception.RentingPropertyWithoutOwnerException;
+import org.example.service.RentService;
 
-import java.util.List;
 import java.util.Objects;
 
 public class RentData {
 
+    private static final Logger logger = LogManager.getLogger(RentData.class);
     private PropertyOwner owner;
 
-    private List<Tenant> tenants;
+    private Tenant tenant;
 
     private Property property;
 
     private double rentPrice;
 
-    public RentData(PropertyOwner owner, List<Tenant> tenants, Property property) throws OwnerHasNoPropertyException, NoTenantException, RentingPropertyWithoutOwnerException {
+    public RentData(PropertyOwner owner, Tenant tenant, Property property) throws OwnerHasNoPropertyException, NoTenantException, RentingPropertyWithoutOwnerException {
 
         if(owner.getProperty() == null){
-            throw new OwnerHasNoPropertyException("You can't write RentData with owner without property");
+            throw new OwnerHasNoPropertyException(owner);
         }
 
-        if(property.getTenants().size() == 0){
-            throw new NoTenantException("You should set tenant to the property");
+        if(property.getTenant() == null){
+            throw new NoTenantException(property);
         }
 
         if(property.getOwner() == null){
-            throw new RentingPropertyWithoutOwnerException("Your property doesn't has owner set");
+            throw new RentingPropertyWithoutOwnerException(property);
         }
 
         this.owner = owner;
-        this.tenants = tenants;
+        this.tenant = tenant;
         this.property = property;
         this.rentPrice = property.getRentPrice();
+        logger.info("Instance of RentData class was created");
     }
 
     public RentData() {}
@@ -47,12 +53,12 @@ public class RentData {
         this.owner = owner;
     }
 
-    public List<Tenant> getTenants() {
-        return List.copyOf(tenants);
+    public Tenant getTenant() {
+        return tenant;
     }
 
-    public void addTenant(Tenant tenant) {
-        tenants.add(tenant);
+    public void setTenant(Tenant tenant) {
+        this.tenant = tenant;
     }
 
     public Property getProperty() {
@@ -71,17 +77,29 @@ public class RentData {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof RentData rentData)) return false;
-        return Double.compare(rentData.getRentPrice(), getRentPrice()) == 0 && getOwner().equals(rentData.getOwner()) && getTenants().equals(rentData.getTenants()) && getProperty().equals(rentData.getProperty());
+        return Double.compare(rentData.getRentPrice(), getRentPrice()) == 0 && getOwner().equals(rentData.getOwner()) && getTenant().equals(rentData.getTenant()) && getProperty().equals(rentData.getProperty());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getOwner(), getTenants(), getProperty(), getRentPrice());
+        return Objects.hash(getOwner(), getTenant(), getProperty(), getRentPrice());
     }
 
     @Override
     public String toString() {
-        return String.format("Rent information: \n Owner: %s \n Tenants: %s \n Property: %s ",
-                owner.getSurname(), tenants.toString(), property.getAddress());
+        return getOwner().getName()+","+
+                getOwner().getSurname()+","+
+                getOwner().getPhoneNumber()+","+
+                getOwner().getEmail()+","+
+                getOwner().getAccountNumber()+"\n" +
+
+                getTenant().getName()+","+
+                getTenant().getSurname()+","+
+                getTenant().getPhoneNumber()+","+
+                getTenant().getEmail()+","+
+                getTenant().getAccountNumber()+"\n" +
+
+                getProperty().getAddress()+","+
+                getRentPrice()+"\n";
     }
 }

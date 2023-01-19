@@ -1,6 +1,6 @@
 package org.example.interfaces;
 
-import org.example.entity.Property;
+import org.example.abstractClasses.Property;
 import org.example.entity.Tenant;
 import org.example.exception.NoSuchRentDataFoundException;
 import org.example.exception.NoTenantException;

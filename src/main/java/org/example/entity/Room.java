@@ -1,8 +1,11 @@
 package org.example.entity;
 
+import org.example.abstractClasses.Property;
+import org.example.enums.RentStatus;
+
 import java.util.Objects;
 
-public class Room extends Property{
+public class Room extends Property {
 
     private final House house;
 
@@ -13,10 +16,10 @@ public class Room extends Property{
 
     @Override
     public void updateStatus() {
-        if(getTenants().size() != 0){
-            setStatus(true);
+        if(getTenant() != null) {
+            setStatus(RentStatus.RENTED);
         } else {
-            setStatus(false);
+            setStatus(RentStatus.AVAILABLE_TO_RENT);
         }
     }
 
